@@ -1,3 +1,1 @@
-CREATE TABLE `aniplace`.`destaques` ( `idDestaque` INT NOT NULL AUTO_INCREMENT , `idAnime` INT NOT NULL , `numero` TINYINT(2) NOT NULL , `capa` VARCHAR(255) NULL , `clicks` INT NOT NULL DEFAULT '0' , PRIMARY KEY (`idDestaque`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
-
-ALTER TABLE `destaques` ADD CONSTRAINT `destaque_anime` FOREIGN KEY (`idAnime`) REFERENCES `animes`(`idAnime`) ON DELETE CASCADE ON UPDATE CASCADE;
+CREATE TABLE `aniplace`.`configs` ( `idConfig` INT NOT NULL AUTO_INCREMENT , `adsActive` BOOLEAN NOT NULL , PRIMARY KEY (`idConfig`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
