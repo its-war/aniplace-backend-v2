@@ -13,7 +13,7 @@ const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
     cors: {
-        origin: ["http://localhost:3000", "http://192.168.0.22:3000"],
+        origin: process.env.SERVERDOMINIO.split(','),
         methods: ["GET", "POST"],
         transports: ['websocket', 'polling'],
         credentials: true
@@ -31,12 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors({
-    origin: [
-        'http://192.168.0.22:8080',
-        'http://192.168.0.22:3000',
-        'http://localhost:3000',
-        'http://localhost:8080'
-    ],
+    origin: process.env.SERVERDOMINIO.split(','),
     credentials: true
 }));
 app.use(cookieParser(process.env.COOKIESECRET));
@@ -77,9 +72,9 @@ io.on('connection', (socket) => {
         incrementarAcessos(idAnime);
     });
 
-    socket.on('acessoEpisodio', (idEpisodio) => {
+    socket.on('acessoEpisodio', (idAnime, numero, temporada) => {
         const incrementarAcessos = require('./src/models/episodios/incrementarAcessos');
-        incrementarAcessos(idEpisodio);
+        incrementarAcessos(idAnime, numero, temporada);
     });
 
     socket.on('getActiveUsers', () => {
