@@ -132,3 +132,5 @@ dist
 public/img/
 
 update_banco.sql
+
+.idea
