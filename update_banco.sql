@@ -1,1 +1,0 @@
-CREATE TABLE `aniplace`.`configs` ( `idConfig` INT NOT NULL AUTO_INCREMENT , `adsActive` BOOLEAN NOT NULL , PRIMARY KEY (`idConfig`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;

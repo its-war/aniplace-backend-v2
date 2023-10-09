@@ -130,3 +130,5 @@ dist
 .pnp.*
 
 public/img/
+
+update_banco.sql
