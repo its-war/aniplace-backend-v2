@@ -7,7 +7,8 @@ const episodioRouter = require('./routes/episodioRouter');
 const reportRouter = require('./routes/reportRouter');
 const ratingRouter = require('./routes/ratingRouter');
 const comentarioRouter = require('./routes/comentarioRouter');
-const adsRouter = require('./routes/adsRouter')
+const adsRouter = require('./routes/adsRouter');
+const postagensRouter = require('./routes/postagemRouter');
 
 const checkToken = require('../middlewares/checkUserToken');
 const isAdmin = require('../middlewares/isAdmin');
@@ -20,5 +21,6 @@ router.use('/rating', ratingRouter);
 router.use('/report', reportRouter);
 router.use('/comentario', comentarioRouter);
 router.use('/ads', adsRouter);
+router.use('/post', postagensRouter);
 
 module.exports = router;
