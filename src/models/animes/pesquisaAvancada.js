@@ -25,12 +25,28 @@ module.exports = async (filtros = {letra: false, ano: false, disponibilidade: fa
         }
 
         if(filtros.disponibilidade){
-            conditions.push('disponibilidade = ?');
+            if(typeof filtros.disponibilidade !== 'number'){
+                filtros.disponibilidade = parseInt(filtros.disponibilidade);
+            }
+
+            if(filtros.disponibilidade !== 1){
+                conditions.push('(disponibilidade = ? OR disponibilidade = 1)');
+            }else{
+                conditions.push('(disponibilidade = ? OR disponibilidade = 2 OR disponibilidade = 3)');
+            }
             params.push(filtros.disponibilidade);
         }
 
         if(filtros.audio){
-            conditions.push('audio = ?');
+            if(typeof filtros.audio !== 'number'){
+                filtros.audio = parseInt(filtros.audio);
+            }
+
+            if(filtros.audio !== 1){
+                conditions.push('(audio = ? OR audio = 1)');
+            }else{
+                conditions.push('(audio = ? OR audio = 2 OR audio = 3)');
+            }
             params.push(filtros.audio);
         }
 
