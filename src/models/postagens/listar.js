@@ -1,4 +1,5 @@
 const conn = require('../../config/database');
+const he = require('he');
 module.exports = async (pagina = 1) => {
     if(typeof pagina !== 'number'){
         pagina = parseInt(pagina);
@@ -23,7 +24,7 @@ module.exports = async (pagina = 1) => {
                 }else{
                     const postagens = results.map(p => ({
                         idPostagem: p.idPostagem,
-                        texto: p.texto,
+                        texto: p.texto ? he.decode(p.texto) : p.texto,
                         imagem: p.imagem,
                         registro: p.registro,
                         user: {

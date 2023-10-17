@@ -1,4 +1,5 @@
 const conn = require('../../config/database');
+const he = require('he');
 module.exports = async (idPostagem) => {
     return new Promise((resolve, reject) => {
         conn.query(
@@ -17,7 +18,7 @@ module.exports = async (idPostagem) => {
                 }else{
                     const postagem = {
                         idPostagem: result[0].idPostagem,
-                        texto: result[0].texto,
+                        texto: result[0].texto ? he.decode(result[0].texto) : result[0].texto,
                         imagem: result[0].imagem,
                         registro: result[0].registro,
                         user: {
