@@ -63,28 +63,52 @@ app.get("*", (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
 
+const incrementarAnimeAcessos = require('./src/models/animes/incrementarAcesso');
+const incrementarEpisodioAcessos = require('./src/models/episodios/incrementarAcessos');
+const setUserActivity = require('./src/models/user/setActivity');
 const activeUsers = new Set();
+const NodeCache = require('node-cache');
+const userCache = new NodeCache({stdTTL: 30 * 60});
 io.on('connection', (socket) => {
     activeUsers.add(socket.id);
 
     socket.on('acessoAnime', (idAnime) => {
-        const incrementarAcessos = require('./src/models/animes/incrementarAcesso');
-        incrementarAcessos(idAnime);
+        incrementarAnimeAcessos(idAnime);
     });
 
     socket.on('acessoEpisodio', (idAnime, numero, temporada) => {
-        const incrementarAcessos = require('./src/models/episodios/incrementarAcessos');
-        incrementarAcessos(idAnime, numero, temporada);
+        incrementarEpisodioAcessos(idAnime, numero, temporada);
     });
 
     socket.on('getActiveUsers', () => {
         socket.emit('getActiveUsers', activeUsers.size);
     });
 
+    socket.on('userActivity', (idUser) => {
+        if (userCache.has(idUser)) {
+            const currentValue = userCache.get(idUser);
+            userCache.set(idUser, currentValue + 1);
+
+            if (currentValue >= 20) {
+                const valor = userCache.take(idUser);
+                setUserActivity(idUser, valor);
+            }
+        } else {
+            userCache.set(idUser, 1);
+        }
+    });
+
     socket.on('disconnect', () => {
         activeUsers.delete(socket.id);
         socket.emit('getActiveUsers', activeUsers.size);
     });
+});
+
+userCache.on("expired", (key, value) => {
+    key = parseInt(key);
+    if(typeof key === 'number'){
+        setUserActivity(key, value);
+    }
 });
 
 setInterval(() => {
