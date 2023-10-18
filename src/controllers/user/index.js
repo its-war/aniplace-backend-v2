@@ -6,5 +6,6 @@ module.exports = {
     getLoginCaptcha: require('./getLoginCaptcha'),
     verifyFrontendRouter: require('./verifyFrontendRouter'),
     listar: require('./listar'),
-    getUsersInfo: require('./getUsersInfo')
+    getUsersInfo: require('./getUsersInfo'),
+    getTopUsers: require('./topUsers')
 }

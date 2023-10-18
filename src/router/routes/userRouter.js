@@ -54,5 +54,6 @@ userRouter.get('/getCaptcha',
     controller.getLoginCaptcha
 );
 userRouter.get('/verify-frontend-router', controller.verifyFrontendRouter);
+userRouter.get('/getTopUsers', controller.getTopUsers);
 
 module.exports = userRouter;
