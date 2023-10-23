@@ -15,6 +15,7 @@ postagemRouter.post('/newPost',
 );
 postagemRouter.get('/getPostagens',
     query('pagina').optional().isInt().escape(),
+    query('idUser').optional().isInt().escape(),
     controller.getPostagens
 );
 postagemRouter.post('/curtir',

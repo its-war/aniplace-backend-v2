@@ -1,8 +1,11 @@
 const conn = require('../../config/database');
 const he = require('he');
-module.exports = async (pagina = 1) => {
+module.exports = async (pagina = 1, idUser = 0) => {
     if(typeof pagina !== 'number'){
         pagina = parseInt(pagina);
+    }
+    if(typeof idUser !== 'number'){
+        idUser = parseInt(idUser);
     }
     return new Promise(async (resolve, reject) => {
         let offset = (pagina - 1) * 10;
@@ -14,6 +17,7 @@ module.exports = async (pagina = 1) => {
             from postagens p 
                 inner join user u on p.idUser = u.idUser 
                 left join curtidas_postagens c on p.idPostagem = c.idPostagem
+            ${idUser > 0 ? 'where p.idUser = ' + idUser : ''}
             group by p.idPostagem
             order by p.idPostagem desc
             limit ? offset ?`,
