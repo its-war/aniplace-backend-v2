@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     if(errors.isEmpty()){
         let {texto, pagina} = matchedData(req);
         let {animes, total} = await pesquisaSimples(texto, pagina);
-        for(let i = 0; i < animes.length; i++){
+        for(let i = 0; i < animes?.length; i++){
             animes[i].generos = await listarGeneros(animes[i].generos);
         }
         return res.send({animes: animes, total: total});
