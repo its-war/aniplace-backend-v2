@@ -42,7 +42,7 @@ module.exports = async (req, res) => {
 }
 
 function gerarNomeAleatorio() {
-    const prefixo = 'user';
+    const prefixo = 'user-foto';
     const timestamp = Date.now();
     const numeroAleatorio = Math.floor(Math.random() * 10000000000000);
     const extensao = 'jpg';

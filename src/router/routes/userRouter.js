@@ -9,6 +9,9 @@ const multer = require('multer');
 const fotoUser = multer({dest: 'uploads/'}).fields([
     {name: 'foto', maxCount: 1}
 ]);
+const capaUser = multer({dest: 'uploads/'}).fields([
+    {name: 'capa', maxCount: 1}
+]);
 
 userRouter.post('/inserir',
     body('nome').isAlpha('pt-BR', {ignore: ' '}).trim().escape().notEmpty(),
@@ -67,6 +70,11 @@ userRouter.post('/setFoto',
     checkToken,
     fotoUser,
     controller.uploadFoto
+);
+userRouter.post('/setCapa',
+    checkToken,
+    capaUser,
+    controller.uploadCapa
 );
 
 module.exports = userRouter;

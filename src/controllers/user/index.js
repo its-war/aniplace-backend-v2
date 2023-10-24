@@ -9,5 +9,6 @@ module.exports = {
     getUsersInfo: require('./getUsersInfo'),
     getTopUsers: require('./topUsers'),
     getUserPublicPerfil: require('./getUserPublicPerfil'),
-    uploadFoto: require('./uploadFoto')
+    uploadFoto: require('./uploadFoto'),
+    uploadCapa: require('./uploadCapa')
 }
