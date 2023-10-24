@@ -5,6 +5,10 @@ const {body, query} = require('express-validator');
 const hasEmail = require('../../models/user/hasEmail');
 const hasUsername = require('../../models/user/hasUsername');
 const checkToken = require('../../middlewares/checkUserToken');
+const multer = require('multer');
+const fotoUser = multer({dest: 'uploads/'}).fields([
+    {name: 'foto', maxCount: 1}
+]);
 
 userRouter.post('/inserir',
     body('nome').isAlpha('pt-BR', {ignore: ' '}).trim().escape().notEmpty(),
@@ -55,5 +59,14 @@ userRouter.get('/getCaptcha',
 );
 userRouter.get('/verify-frontend-router', controller.verifyFrontendRouter);
 userRouter.get('/getTopUsers', controller.getTopUsers);
+userRouter.get('/getPublicPerfil',
+    query('idUser').notEmpty().isInt().escape(),
+    controller.getUserPublicPerfil
+);
+userRouter.post('/setFoto',
+    checkToken,
+    fotoUser,
+    controller.uploadFoto
+);
 
 module.exports = userRouter;

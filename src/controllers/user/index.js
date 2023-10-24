@@ -7,5 +7,7 @@ module.exports = {
     verifyFrontendRouter: require('./verifyFrontendRouter'),
     listar: require('./listar'),
     getUsersInfo: require('./getUsersInfo'),
-    getTopUsers: require('./topUsers')
+    getTopUsers: require('./topUsers'),
+    getUserPublicPerfil: require('./getUserPublicPerfil'),
+    uploadFoto: require('./uploadFoto')
 }
