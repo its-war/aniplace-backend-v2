@@ -2,6 +2,7 @@ const listarAnimes = require('../../models/animes/listar');
 const listarGeneros = require('../../models/animes/listarGeneros');
 const totalPaginas = require('../../models/animes/totalPaginas');
 const listarEpisodios = require('../../models/episodios/listar');
+const incrementarAnimeAcessos = require('../../models/animes/incrementarAcesso');
 const {matchedData, validationResult} = require('express-validator');
 module.exports = async (req, res) => {
     const errors = validationResult(req);
@@ -17,6 +18,7 @@ module.exports = async (req, res) => {
                 lista[i].generos = await listarGeneros(lista[i].generos);
                 lista[i].prints = lista[i].prints.split('_');
             }
+            incrementarAnimeAcessos(dados.id);
             return res.send(lista);
         }
 
