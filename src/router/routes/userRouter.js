@@ -76,5 +76,9 @@ userRouter.post('/setCapa',
     capaUser,
     controller.uploadCapa
 );
+userRouter.get('/getAtividades',
+    query('idUser').notEmpty().isInt().escape(),
+    controller.listarAtividade
+);
 
 module.exports = userRouter;
