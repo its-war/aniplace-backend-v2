@@ -11,9 +11,11 @@ module.exports = async (req, res) => {
             const destino = path.join('public/img/user/foto', novoNome);
 
             let user = await getFieldUser(req.iduser, 'idUser, foto');
-            let imgAntiga = path.join('public/img/user/foto', user.foto);
-            if(fs.existsSync(imgAntiga)){
-                fs.unlinkSync(imgAntiga);
+            if(user.foto){
+                let imgAntiga = path.join('public/img/user/foto', user.foto);
+                if(fs.existsSync(imgAntiga)){
+                    fs.unlinkSync(imgAntiga);
+                }
             }
 
             await sharp(tempPath)
