@@ -63,22 +63,13 @@ app.get("*", (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
 
-const incrementarAnimeAcessos = require('./src/models/animes/incrementarAcesso');
-const incrementarEpisodioAcessos = require('./src/models/episodios/incrementarAcessos');
 const setUserActivity = require('./src/models/user/setActivity');
+const setAtividadeUserAnimeView = require('./src/controllers/user/setUserAtividade');
 const activeUsers = new Set();
 const NodeCache = require('node-cache');
 const userCache = new NodeCache({stdTTL: 30 * 60});
 io.on('connection', (socket) => {
     activeUsers.add(socket.id);
-
-    socket.on('acessoAnime', (idAnime) => {
-        incrementarAnimeAcessos(idAnime);
-    });
-
-    socket.on('acessoEpisodio', (idAnime, numero, temporada) => {
-        incrementarEpisodioAcessos(idAnime, numero, temporada);
-    });
 
     socket.on('getActiveUsers', () => {
         socket.emit('getActiveUsers', activeUsers.size);
@@ -96,6 +87,10 @@ io.on('connection', (socket) => {
         } else {
             userCache.set(idUser, 1);
         }
+    });
+
+    socket.on('userAtividadeAnimeView', (idUser, idAnime) => {
+        setAtividadeUserAnimeView(idUser, idAnime);
     });
 
     socket.on('disconnect', () => {
