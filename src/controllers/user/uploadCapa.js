@@ -19,8 +19,8 @@ module.exports = async (req, res) => {
             }
 
             await sharp(tempPath)
-                .resize({ width: 941, height: 500, fit: "cover", position: 'center' })
-                .jpeg({ quality: 60 })
+                .resize({ width: 1422, height: 800, fit: "cover", position: 'center' })
+                .jpeg({ quality: 80 })
                 .toFile(destino)
                 .then(() => {
                     // Após o processamento, libere o arquivo da memória
