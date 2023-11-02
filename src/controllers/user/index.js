@@ -11,5 +11,6 @@ module.exports = {
     getUserPublicPerfil: require('./getUserPublicPerfil'),
     uploadFoto: require('./uploadFoto'),
     uploadCapa: require('./uploadCapa'),
-    listarAtividade: require('./listarAtividade')
+    listarAtividade: require('./listarAtividade'),
+    updateUser: require('./updateUser')
 }

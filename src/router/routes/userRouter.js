@@ -80,5 +80,31 @@ userRouter.get('/getAtividades',
     query('idUser').notEmpty().isInt().escape(),
     controller.listarAtividade
 );
+userRouter.put('/update',
+    checkToken,
+    body('senha'),
+    body('nome').optional().isAlpha('pt-BR', {ignore: ' '}).trim().escape(),
+    body('apelido').optional().trim().escape(),
+    body('pronome').optional().trim().escape(),
+    body('genero').optional().trim().escape(),
+    body('animeFavorito').optional().isInt().escape(),
+    body('personagemFavorito').optional().trim().escape(),
+    body('biografia').optional().trim().escape(),
+    body('nascimento').optional().trim().escape(),
+    body('novaSenha').optional().isLength({min: 8}),
+    body('username').optional().trim().escape().custom(async value => {
+        const existUsername = await hasUsername(value);
+        if(existUsername){
+            throw new Error('Esse nome de usuário não é válido.');
+        }
+    }),
+    body('email').optional().trim().isEmail({host_whitelist: ['gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com', 'icloud.com', 'me.com']}).escape().notEmpty().custom(async value => {
+        const existEmail = await hasEmail(value);
+        if(existEmail){
+            throw new Error('Esse email não é válido.');
+        }
+    }),
+    controller.updateUser
+);
 
 module.exports = userRouter;

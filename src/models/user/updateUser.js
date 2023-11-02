@@ -1,4 +1,9 @@
 const conn = require('../../config/database');
+/**
+ * @param {Number|String} idUser
+ * @param {Object} arrayDados
+ * @returns {Promise<Boolean>}
+ */
 module.exports = async (idUser, arrayDados) => {
     return new Promise((resolve, reject) => {
         conn.query(
