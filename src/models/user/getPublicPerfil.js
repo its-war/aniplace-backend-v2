@@ -20,7 +20,8 @@ module.exports = async (idUser) => {
                     u.animeFavorito,
                     u.personagemFavorito,
                     a.idAnime,
-                    a.nome as animeNome
+                    a.nome as animeNome,
+                    a.capa as animeCapa
              from user u
                  left join animes a on u.animeFavorito = a.idAnime
              where idUser = ?
@@ -48,7 +49,8 @@ module.exports = async (idUser) => {
                             genero: result[0].genero,
                             animeFavorito: result[0].animeFavorito ? {
                                 idAnime: result[0].idAnime,
-                                nome: result[0].animeNome
+                                nome: result[0].animeNome,
+                                capa: result[0].animeCapa
                             } : null,
                             personagemFavorito: result[0].personagemFavorito ? he.decode(result[0].personagemFavorito) : null
                         }
