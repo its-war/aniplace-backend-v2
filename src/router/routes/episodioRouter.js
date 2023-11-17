@@ -16,5 +16,9 @@ episodioRouter.get('/getLancamentos',
     query('pagina').optional().isInt().escape(),
     controller.getLancamentos
 );
+episodioRouter.get('/listar',
+    query('idAnime').notEmpty().isInt().escape(),
+    controller.listar
+);
 
 module.exports = episodioRouter;
