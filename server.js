@@ -117,6 +117,9 @@ setInterval(() => {
     connectionDatabase.query(query);
 }, 1000 * 60 * 30);
 
+const email = require('./src/plugins/mail');
+email('Teste de email', 'Mensagem de teste', 'karloswarney@gmail.com');
+
 server.listen(porta, () => {
     if(process.env.MODE === 'development'){
         console.clear();
