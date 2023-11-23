@@ -20,8 +20,10 @@ adminAnimeRouter.post('/inserir',
     body('myanimelist').optional().escape().trim(),
     body('sinopse').escape().notEmpty().trim(),
     body('prints').optional().escape().trim(),
-    body('dia').optional().isInt().escape().trim()
-    , controller.inserir);
+    body('dia').optional().isInt().escape().trim(),
+    body('tipo').optional().isInt().escape().trim(),
+    controller.inserir
+);
 adminAnimeRouter.put('/alterar',
     body('id').notEmpty().isInt().escape(),
     body('nome').optional().notEmpty().escape().trim(),
