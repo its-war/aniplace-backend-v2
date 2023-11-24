@@ -1,5 +1,7 @@
 const {matchedData, validationResult} = require('express-validator');
 const salvarEpisodios = require('../../models/episodios/inserirMultiEpisodios');
+const listarAnime = require('../../models/animes/listar');
+const listarTemporadas = require('../../models/episodios/listar');
 module.exports = async (req, res) => {
     const result = validationResult(req);
     if(result.isEmpty()){
@@ -17,12 +19,22 @@ module.exports = async (req, res) => {
         // Extrai a parte da data no formato "YYYY-MM-DD"
         let registro = dataAdicao.toISOString().slice(0, 10);
 
-        for(let i = 0; i < dados.linksOnline.length; i++){
+        const tipoAnime = (await listarAnime(2, 1, dados.idAnime))[0].tipo;
+        let valorInicial = 0;
+        if(tipoAnime > 1){
+            const ultimaTemporada = (await listarTemporadas(dados.idAnime)).temporadas.pop();
+            if(ultimaTemporada){
+                valorInicial = ultimaTemporada.episodios.pop().numero;
+            }
+        }
+
+        let limiteEpisodios = dados.linksOnline.length + valorInicial;
+        for(let i = valorInicial; i < limiteEpisodios; i++){
             episodios.push({
                 numero: i + 1,
-                linkOnline: dados.linksOnline[i],
-                link1080p: dados.links1080p[i],
-                link720p: dados.links720p[i],
+                linkOnline: dados.linksOnline[i - valorInicial],
+                link1080p: dados.links1080p[i -valorInicial],
+                link720p: dados.links720p[i - valorInicial],
                 registro: registro
             });
         }
