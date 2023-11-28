@@ -18,6 +18,7 @@ adminEpisodiosRouter.post('/inserirMultiEpisodios',
     body('links1080p').notEmpty(),
     body('links720p').notEmpty(),
     body('linksOnline').notEmpty(),
+    body('episodiosDuplos').optional().isArray().escape(),
     controller.inserirMultiEpisodios
 );
 adminEpisodiosRouter.get('/listar',
