@@ -2,7 +2,7 @@ const conn = require('../../config/database');
 const he = require('he');
 module.exports = async (idAnime, temporada, numero) => {
     try{
-        let sql = `select a.idAnime, a.nome, a.capa, e.idEpisodio, e.linkOnline, e.acessos as visu, e.ova
+        let sql = `select a.idAnime, a.nome, a.capa, e.idEpisodio, e.linkOnline, e.acessos as visu, e.ova, e.duplo
                    from episodios e
                    inner join animes a on e.idAnime = a.idAnime
                    where e.idAnime=? and e.temporada=? and e.numero=?`;
@@ -24,7 +24,8 @@ module.exports = async (idAnime, temporada, numero) => {
                 nome: rows[0].nome,
                 capa: rows[0].capa
             },
-            temporadas: await getTemporadas(idAnime)
+            temporadas: await getTemporadas(idAnime),
+            duplo: rows[0].duplo
         }
     }catch (e) {
         return false;
@@ -51,14 +52,20 @@ async function getTemporadas(idAnime){
         }));
 
         for (const temporada of temporadas) {
-            const acessosQuery = `
-                SELECT acessos FROM episodios
+            const getEpisodiosQuery = `
+                SELECT acessos, duplo, numero, idEpisodio, ova FROM episodios
                 WHERE idAnime = ? AND temporada = ?
                 ORDER BY numero
             `;
-            const [acessosRows] = await conn.promise().query(acessosQuery, [idAnime, temporada.numeroTemporada]);
+            const [rowsEpisodios] = await conn.promise().query(getEpisodiosQuery, [idAnime, temporada.numeroTemporada]);
 
-            temporada.acessos = acessosRows.map((acessoRow) => acessoRow.acessos);
+            temporada.episodios = rowsEpisodios.map((epRow) => ({
+                idEpisodio: epRow.idEpisodio,
+                acessos: epRow.acessos,
+                duplo: epRow.duplo,
+                numero: epRow.numero,
+                ova: epRow.ova
+            }));
         }
 
         return temporadas;
