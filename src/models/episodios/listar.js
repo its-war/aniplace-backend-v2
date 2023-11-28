@@ -16,7 +16,7 @@ async function getTemporadas(idAnime){
 
 async function getEpisodios(idAnime, temporada){
     try{
-        const [rows] = await conn.promise().query('select idEpisodio, numero, linkOnline, link1080p, link720p from episodios where idAnime=? and temporada=?', [idAnime, temporada]);
+        const [rows] = await conn.promise().query('select idEpisodio, numero, linkOnline, link1080p, link720p, duplo from episodios where idAnime=? and temporada=?', [idAnime, temporada]);
         return rows;
     }catch (e) {
         throw new Error('Erro ao carregar episódios.');
