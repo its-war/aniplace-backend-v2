@@ -24,19 +24,39 @@ module.exports = async (req, res) => {
         if(tipoAnime > 1){
             const ultimaTemporada = (await listarTemporadas(dados.idAnime)).temporadas.pop();
             if(ultimaTemporada){
-                valorInicial = ultimaTemporada.episodios.pop().numero;
+                const ultimoEpisodio = ultimaTemporada.episodios.pop();
+                valorInicial = ultimoEpisodio.numero;
+
+                if(ultimoEpisodio.duplo){
+                    valorInicial++;
+                }
             }
         }
 
         let limiteEpisodios = dados.linksOnline.length + valorInicial;
+        let contador = valorInicial + 1;
         for(let i = valorInicial; i < limiteEpisodios; i++){
-            episodios.push({
-                numero: i + 1,
-                linkOnline: dados.linksOnline[i - valorInicial],
-                link1080p: dados.links1080p[i -valorInicial],
-                link720p: dados.links720p[i - valorInicial],
-                registro: registro
-            });
+            if(dados.episodiosDuplos[i - valorInicial] === 'true'){
+                episodios.push({
+                    numero: contador,
+                    linkOnline: dados.linksOnline[i - valorInicial],
+                    link1080p: dados.links1080p[i -valorInicial],
+                    link720p: dados.links720p[i - valorInicial],
+                    registro: registro,
+                    duplo: true
+                });
+                contador++;
+            }else{
+                episodios.push({
+                    numero: contador,
+                    linkOnline: dados.linksOnline[i - valorInicial],
+                    link1080p: dados.links1080p[i -valorInicial],
+                    link720p: dados.links720p[i - valorInicial],
+                    registro: registro,
+                    duplo: false
+                });
+            }
+            contador++;
         }
 
         return res.send({cadastro: await salvarEpisodios(episodios, dados.temporada, dados.idAnime)});
