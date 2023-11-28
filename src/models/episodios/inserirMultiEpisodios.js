@@ -12,14 +12,15 @@ module.exports = async (episodios, temporada, idAnime) => {
     const conn = await pool.promise().getConnection();
     try{
         for(const episodio of episodios){
-            await conn.execute('insert into episodios (numero, temporada, linkOnline, link1080p, link720p, idAnime, registro) values (?,?,?,?,?,?,?)', [
+            await conn.execute('insert into episodios (numero, temporada, linkOnline, link1080p, link720p, idAnime, registro, duplo) values (?,?,?,?,?,?,?,?)', [
                 episodio.numero,
                 temporada,
                 episodio.linkOnline,
                 episodio.link1080p,
                 episodio.link720p,
                 idAnime,
-                episodio.registro
+                episodio.registro,
+                episodio.duplo
             ]);
         }
         return true;
