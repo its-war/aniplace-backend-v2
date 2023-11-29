@@ -16,8 +16,8 @@ module.exports = async (req, res) => {
         ];
         let animes = [];
         let destaques = await getDestaques();
-        let top = await getTopLancamentos(5, campos.join(','));
-        let acessados = await getAnimesMaisAcessados(6, campos.join(','));
+        let top = await getTopLancamentos(2, campos.join(','));
+        let acessados = await getAnimesMaisAcessados(2, campos.join(','));
 
         if(destaques.length > 0){
             function animeNaoExisteNoResultado(anime) {
