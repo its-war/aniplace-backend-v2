@@ -2,7 +2,7 @@ const conn = require('../../config/database');
 const he = require('he');
 module.exports = async (idAnime, temporada, numero) => {
     try{
-        let sql = `select a.idAnime, a.nome, a.capa, e.idEpisodio, e.linkOnline, e.acessos as visu, e.ova, e.duplo
+        let sql = `select a.idAnime, a.nome, a.capa, a.tipo, e.idEpisodio, e.linkOnline, e.acessos as visu, e.ova, e.duplo
                    from episodios e
                    inner join animes a on e.idAnime = a.idAnime
                    where e.idAnime=? and e.temporada=? and e.numero=?`;
@@ -22,7 +22,8 @@ module.exports = async (idAnime, temporada, numero) => {
             anime: {
                 idAnime: rows[0].idAnime,
                 nome: rows[0].nome,
-                capa: rows[0].capa
+                capa: rows[0].capa,
+                tipo: rows[0].tipo
             },
             temporadas: await getTemporadas(idAnime),
             duplo: rows[0].duplo
