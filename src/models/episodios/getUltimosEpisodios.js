@@ -11,8 +11,9 @@ async function getUltimosEpisodios(limite){
         let query = `
             SELECT e.idEpisodio, e.numero, e.temporada, a.idAnime, a.nome AS nomeAnime, a.capa
             FROM episodios e
-            INNER JOIN animes a ON e.idAnime = a.idAnime
+                     INNER JOIN animes a ON e.idAnime = a.idAnime
             WHERE a.status = 1
+            GROUP BY temporada, a.idAnime
             ORDER BY e.idEpisodio DESC
         `;
 
