@@ -9,6 +9,7 @@ episodioRouter.get('/getUltimos7Dias',
 );
 episodioRouter.get('/hasTemporada',
     query('idAnime').notEmpty().isInt().escape(),
+    query('tipo').optional().isInt().escape(),
     controller.hasTemporada
 );
 episodioRouter.get('/getLancamentos',
