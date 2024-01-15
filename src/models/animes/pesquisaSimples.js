@@ -33,7 +33,7 @@ module.exports = async (texto, pagina) => {
                         audio: a.audio,
                         site: a.site ? he.decode(a.site) : a.site,
                         myanimelist: a.myanimelist ? he.decode(a.myanimelist) : a.myanimelist,
-                        sinopse: a.sinopse,
+                        sinopse: JSON.parse(a.sinopse ? he.decode(a.sinopse) : a.sinopse),
                         foto: a.foto,
                         capa: a.capa,
                         prints: a.prints,
