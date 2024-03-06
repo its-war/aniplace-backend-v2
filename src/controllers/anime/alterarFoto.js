@@ -7,10 +7,14 @@ module.exports = async (req, res) => {
     if(result.isEmpty()){
         const dados = matchedData(req);
         const tempPath = req.file.path;
-        const campo = dados.opcao === 1 ? 'foto' : 'capa';
+        let opcao = dados.opcao;
+        if(typeof opcao !== 'number'){
+            opcao = parseInt(opcao);
+        }
+        const campo = opcao === 1 ? 'foto' : 'capa';
         let novoNome = gerarNomeAleatorio(campo);
         const destino = 'public/img/anime/'+ campo +'/' + novoNome;
-        const dimension = dados.opcao === 1 ? { width: 900, height: 1280 } : { width: 1920, height: 1080 } // Dimensões para a imagem "foto"
+        const dimension = opcao === 1 ? { width: 900, height: 1280 } : { width: 1920, height: 1080 } // Dimensões para a imagem "foto"
 
         const newImg = sharp(tempPath)
             .resize(dimension.width, dimension.height)
@@ -26,7 +30,7 @@ module.exports = async (req, res) => {
             let imgAntiga = await alterarFoto(novoNome, campo, dados.id);
             if(imgAntiga){
                 fs.unlinkSync('public/img/anime/'+ campo + '/' + imgAntiga);
-                return res.send({upload: true});
+                return res.send({upload: true, img: novoNome});
             }else{
                 fs.unlinkSync('public/img/anime/' + campo + '/' + novoNome);
                 return res.send({upload: false});
