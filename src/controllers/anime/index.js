@@ -15,5 +15,6 @@ module.exports = {
     getTopAnimes: require('./getTopAnimes'),
     getUltimosAnimes: require('./getUltimosAnimes'),
     getAnimesInfo: require('./getAnimesInfo'),
-    getFuturosLancamentos: require('./getFuturosLancamentos')
+    getFuturosLancamentos: require('./getFuturosLancamentos'),
+    alterarPrints: require('./alterarPrints')
 }

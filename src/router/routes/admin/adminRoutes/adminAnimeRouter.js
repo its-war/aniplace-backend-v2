@@ -58,6 +58,13 @@ adminAnimeRouter.post('/addPrints',
     },
     controller.uploadPrints
 );
+adminAnimeRouter.put('/alterarPrints',
+    simplesUpload.array('imgs'),
+    body('idAnime').notEmpty().isInt().escape(),
+    body('manter').optional().escape(),
+    body('deletions').optional().escape(),
+    controller.alterarPrints
+);
 adminAnimeRouter.get('/listarTodos', controller.listarTodos);
 adminAnimeRouter.get('/getUltimosAnimes', controller.getUltimosAnimes);
 adminAnimeRouter.get('/getAnimesInfo', controller.getAnimesInfo);
