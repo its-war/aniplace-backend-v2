@@ -6,19 +6,24 @@ const alterarAnime = require('../../models/animes/alterar');
 module.exports = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        console.log(errors.array());
-        console.log(matchedData(req));
         return res.send({ errors: errors.array() });
     }
 
     let {idAnime, manter, deletions} = (matchedData(req));
     const imageNames = [];
 
-    manter = manter ? he.decode(manter) : [];
-    deletions = deletions ? he.decode(deletions) : [];
+    if(manter){
+        manter = manter.length === 0 ? [] : he.decode(typeof manter === 'object' ? manter.join('_') : manter).split('_');
+    }else{
+        manter = [];
+    }
+    if(deletions){
+        deletions = deletions.length === 0 ? [] : he.decode(typeof deletions === 'object' ? deletions.join('_') : deletions).split('_');
+    }else{
+        deletions = [];
+    }
 
     if(req.files){
-        console.log(req.files);
         const imgPromises = req.files.map((file, i) => {
             const imgName = `p${i + 1}-a${idAnime}-${Date.now()}.jpg`;
             imageNames.push(imgName);
@@ -41,7 +46,6 @@ module.exports = async (req, res) => {
                 prints: 'p'
             }
         }else{
-            console.log([...manter, ...imageNames].join('_'));
             dados = {
                 prints: [...manter, ...imageNames].join('_')
             }
