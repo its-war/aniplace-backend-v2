@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
         }else{
             return res.send({errors: ['Nenhum campo foi fornecido para alteração.']});
         }
+    }else{
+        return res.send({ errors: result.array(), msg: 'não entendi o erro' });
     }
-
-    return res.send({ errors: result.array() });
 }
