@@ -37,7 +37,7 @@ app.use(cors({
 app.use(cookieParser(process.env.COOKIESECRET));
 app.use(express.static(path.join(__dirname, "public")));
 app.set('trust proxy', true);
-const porta = process.env.SERVERPORT || 80;//TODO: resolver erro na api: SyntaxError: Unexpected non-whitespace character after JSON at position 790
+const porta = process.env.SERVERPORT || 80;
 
 app.use((req, res, next) => {
     req.io = io;

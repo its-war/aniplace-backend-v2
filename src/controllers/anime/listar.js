@@ -42,14 +42,20 @@ module.exports = async (req, res) => {
             return res.send({animes: lista, total: total});
         }
 
-        lista = await listarAnimes(1, dados.pagina.length > 0 ? dados.pagina : 1);
-        for(let i = 0; i < lista.length; i++){
-            lista[i].sinopse = JSON.parse(lista[i].sinopse);
-            lista[i].generos = await listarGeneros(lista[i].generos);
+        try{
+            lista = await listarAnimes(1, dados.pagina.length > 0 ? dados.pagina : 1);
+            for(let i = 0; i < lista.length; i++){
+                //lista[i].sinopse = JSON.parse(lista[i].sinopse);
+                //TODO: solucionar problema com uma solução melhor
+                lista[i].generos = await listarGeneros(lista[i].generos);
+            }
+            let total = await totalPaginas();
+            total = Math.ceil(total / 15);
+            return res.send({animes: lista, total: total});
+        } catch(err){
+            console.error(err);
+            return res.send({errors: [err]});
         }
-        let total = await totalPaginas();
-        total = Math.ceil(total / 15);
-        return res.send({animes: lista, total: total});
     }
 
     res.send({errors: errors.array()});
